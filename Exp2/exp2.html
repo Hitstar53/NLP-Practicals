@@ -7699,18 +7699,22 @@ a.anchor-link {
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">form</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">wordform_arr</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">continue</span>
+        <span class="k">elif</span> <span class="n">form</span> <span class="o">==</span> <span class="n">root</span><span class="p">:</span>
+            <span class="n">wordform_arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">form</span><span class="p">]</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">([</span><span class="n">root</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">form</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># count equal chars break at first unequal</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">char</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">char</span> <span class="o">!=</span> <span class="n">form</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="n">form</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
                     <span class="k">break</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">form</span><span class="p">):</span>
-                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="c1"># count chars after first unequal</span>
-            <span class="n">add</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">form</span><span class="p">[</span><span class="n">j</span><span class="p">:])</span>
-            <span class="n">delete</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">root</span><span class="p">[</span><span class="n">j</span><span class="p">:])</span>
-            <span class="n">wordform_arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">delete</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">form</span><span class="p">[</span><span class="n">j</span><span class="p">:],</span> <span class="n">form</span><span class="p">]</span>
-            <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">([</span><span class="n">root</span><span class="p">,</span> <span class="n">delete</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">form</span><span class="p">[</span><span class="n">j</span><span class="p">:],</span> <span class="n">form</span><span class="p">])</span>
+            <span class="n">add</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">form</span><span class="p">[</span><span class="n">count</span><span class="p">:])</span>
+            <span class="n">delete</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">root</span><span class="p">[</span><span class="n">count</span><span class="p">:])</span>
+            <span class="n">wordform_arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">delete</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">form</span><span class="p">[</span><span class="n">count</span><span class="p">:],</span> <span class="n">form</span><span class="p">]</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">add_row</span><span class="p">([</span><span class="n">root</span><span class="p">,</span> <span class="n">delete</span><span class="p">,</span> <span class="n">add</span><span class="p">,</span> <span class="n">form</span><span class="p">[</span><span class="n">count</span><span class="p">:],</span> <span class="n">form</span><span class="p">])</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7794,7 +7798,7 @@ a.anchor-link {
 +------+-----+-----+-------+-----------+
 | read |  0  |  1  | s     | reads     |
 | read |  0  |  2  | er    | reader    |
-| read |  1  |  1  | d     | read      |
+| read |  0  |  0  |       | read      |
 | read |  0  |  3  | ing   | reading   |
 +------+-----+-----+-------+-----------+
 +-------+-----+-----+-------+-----------+
@@ -7803,7 +7807,7 @@ a.anchor-link {
 | write |  0  |  1  | s     | writes    |
 | write |  0  |  1  | r     | writer    |
 | write |  3  |  3  | ote   | wrote     |
-| write |  0  |  2  | ng    | writing   |
+| write |  1  |  3  | ing   | writing   |
 +-------+-----+-----+-------+-----------+
 +------+-----+-----+-------+-----------+
 | Root | Del | Add | Chars | Word Form |
@@ -7818,15 +7822,15 @@ a.anchor-link {
 +-------+-----+-----+-------+-----------+
 | think |  0  |  1  | s     | thinks    |
 | think |  0  |  2  | er    | thinker   |
-| think |  2  |  4  | ught  | thought   |
+| think |  3  |  5  | ought | thought   |
 | think |  0  |  3  | ing   | thinking  |
 +-------+-----+-----+-------+-----------+
 +------+-----+-----+-------+-----------+
 | Root | Del | Add | Chars | Word Form |
 +------+-----+-----+-------+-----------+
-| cry  |  0  |  2  | es    | cries     |
+| cry  |  1  |  3  | ies   | cries     |
 | cry  |  0  |  2  | er    | cryer     |
-| cry  |  0  |  2  | ed    | cried     |
+| cry  |  1  |  3  | ied   | cried     |
 | cry  |  0  |  3  | ing   | crying    |
 +------+-----+-----+-------+-----------+
 </pre>
